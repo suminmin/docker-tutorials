@@ -1,0 +1,13 @@
+# https://docs.docker.com/compose/gpu-support/
+
+services:
+  test:
+    image: nvcr.io/nvidia/cuda:9.1-devel-ubuntu16.04
+    command: nvidia-smi
+    deploy:
+      resources:
+        reservations:
+          devices:
+          - driver: nvidia
+            device_ids: ['0']
+            capabilities: [gpu]

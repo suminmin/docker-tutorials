@@ -1,0 +1,12 @@
+# https://docs.docker.com/compose/gpu-support/
+
+services:
+  test:
+    image: fr3nd/xeyes
+    command: xeyes
+    environment:
+      DISPLAY: $DISPLAY
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix
+
+            

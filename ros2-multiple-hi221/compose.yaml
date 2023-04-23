@@ -1,0 +1,35 @@
+## docker compose network
+# https://stackoverflow.com/questions/56582446/how-to-use-host-network-for-docker-compose
+
+## docker interactive
+# https://stackoverflow.com/questions/36249744/interactive-shell-using-docker-compose
+version: "2.3"
+
+services:
+  hi221:
+    image: osrf/ros2:nightly
+    network_mode: host
+    ipc: host
+    volumes:
+      - ../ros2-multiple-hi221:/root/ros2-multiple-hi221
+    environment:
+      - ROS_DOMAIN_ID=2
+    devices:
+      - /dev/ttyUSB0:/dev/ttyUSB0
+    stdin_open: true # docker run -i
+    tty: true        # docker run -t    
+
+  rviz:
+    image: osrf/ros2:nightly
+    network_mode: host
+    ipc: host
+    runtime: nvidia
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - ./rosbot_pro.rviz:/root/.rviz2/default.rviz
+    environment:
+      - ROS_DOMAIN_ID=2
+      - DISPLAY=:0
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=all
+    command: rviz2
